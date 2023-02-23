@@ -1,5 +1,8 @@
-from PyQt5.QAxContainer import *
+import sys
 from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QAxContainer import *
 from config.errCode import *
 
 
@@ -9,8 +12,14 @@ class Kiwoom(QAxWidget):
         self.loginEventLoop = QEventLoop() # 로그인 담당 이벤트 루프
         self.accountNumber=None
 
+        self.setWindowTitle("Stock Trading Software")
+        self.setGeometry(300, 300, 300, 150)
+
         self.createKiwoomInstance()
-        self.login()
+
+        button1=QPushButton("Login", self)
+        button1.move(20, 20)
+        button1.clicked.connect(self.click_button1)
 
         self.getInfo()
 
@@ -18,6 +27,9 @@ class Kiwoom(QAxWidget):
     def createKiwoomInstance(self):
         # 레지스트리에 저장된 키움 openAPI 모듈 불러오기
         self.setControl("KHOPENAPI.KHOpenAPICtrl.1")
+
+    def click_button1(self):
+        self.login()
 
     def login(self):
         self.OnEventConnect.connect(self.loginSlot)  # 이벤트와 슬롯을 메모리에 먼저 생성.
